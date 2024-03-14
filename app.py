@@ -4,7 +4,7 @@ import plotly.express as px
 import streamlit as st
 
 
-patient_profile = pd.read_csv('data/patient_profile.csv')
+patient_profile = pd.read_csv('data/patient_profile_site_included.csv')
 patient_feature_array = patient_profile.drop(['CLIENT_SAMPLE_ID', 'gARMSS', 'armms_category'], axis=1).to_numpy()
 
 
