@@ -42,9 +42,10 @@ else:
     selected_client_sample_id = st.sidebar.selectbox('Select CLIENT_SAMPLE_ID:', [None] + client_sample_id_list)
     if selected_client_sample_id:
         num_top_l1_norms = st.sidebar.slider('Number of Top L1 Norms:', 1, 100, 10)
-        patient_row_index = patient_profile_ucsf_only[patient_profile_ucsf_only.CLIENT_SAMPLE_ID==selected_client_sample_id].index.values[0]
+        patient_row_index = patient_profile[patient_profile.CLIENT_SAMPLE_ID==selected_client_sample_id].index.values[0]
         patient_distance_vector = list(distance_matrix[patient_row_index, :])
-        patient_distance_df = pd.DataFrame(zip(client_sample_id_list, patient_distance_vector), columns=['patient-id', 'l1-distance-metric'])
+        patient_distance_df = pd.DataFrame(zip(patient_profile['CLIENT_SAMPLE_ID'].tolist(), patient_distance_vector), columns=['patient-id', 'l1-distance-metric'])
+        patient_distance_df = patient_distance_df[patient_distance_df['patient-id'].str.startswith('714')]
         patient_distance_df = patient_distance_df.sort_values(by='l1-distance-metric', ascending=False).reset_index().drop(['index'], axis=1)
         st.table(patient_distance_df.head(num_top_l1_norms))
 
